@@ -4,6 +4,8 @@ const port = 3000;
 //Importando pacote method-override.Esse pacote serve para sobrescrever/alterar um método. Num form só conseguimos usar GET ou POST, e esse pacote permite que a gente use PUT, DELETE, etc
 const methodOverride = require("method-override");
 const indexRoute = require("./src/routes/indexRoute");
+const userRoute = require("./src/routes/userRoute");
+
 
 // Configurando pasta estática para acesso externo (onde ficam as imagens e css)
 app.use(express.static(__dirname+"/public"));
@@ -16,9 +18,11 @@ app.use(methodOverride("_method"));
 // Convertendo corpo da requisição (body) em objeto literal
 app.use(express.json());
 //url encoded serve para a gente converter a carga da requisição em um formato que o json aceite
-app.use(expree.urlencoded({extended:false}));
+app.use(express.urlencoded({extended:false}));
 
 app.use("/",indexRoute);
+app.use("/user/",userRoute);
+
 
 app.listen(port, ()=>{
     console.log(`Estamos rodando na porta ${port}`)

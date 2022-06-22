@@ -1,6 +1,6 @@
 const indexController = {
     home: (req,res)=>{
-        return res.render("index");
+        return res.render("index",{title:"Painel Administrativo"});
     }
 };
 
