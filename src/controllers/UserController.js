@@ -78,6 +78,22 @@ const userController = {
         return res.render("users",{title:"Lista de usuários", users});
         //Quando a chave tem o mesmo nome do valor, podemos omitir no código. Ex.: 
         // return res.render("users",{title:"Lista de usuários", users:users});
+    },
+    show:(req,res)=>{
+        //Pegando o id que virá via url - GET
+        const {id} = req.params;
+        //Verificando se o id existe
+        const userResult = users.find((user)=>user.id===parseInt(id));
+        if(!userResult){
+            return res.render("error",{
+                title:"Ops!",
+                message:"Usuário não encontrado"
+            });
+        }
+        return res.render("user",{
+            title:"Visualizar usuário",
+            user:userResult
+        });
     }
 };
 
