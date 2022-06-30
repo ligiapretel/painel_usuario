@@ -2,11 +2,16 @@
 <%- include("./partials/header") %>
 <main id="user">
  <h1>Dados do usuário</h1>
- <div>
-    <img src="<%= user.avatar %>" alt="avatar"/>
-    <span><%=user.nome%><%=user.sobrenome%></span>
-    <span><%=user.email%></span>
-    <span><%=user.idade%></span>
- </div>
+ <!-- Verificando se a variável user existe -->
+ <% if(locals.user){%>
+    <div>
+       <img src="<%= user.avatar %>" alt="avatar"/>
+       <span><%=user.nome%><%=user.sobrenome%></span>
+       <span><%=user.email%></span>
+       <span><%=user.idade%></span>
+    </div>
+ <% }else{ %>
+    <h2>Usuário não encontrado.</h2>
+<% } %>
 </main>
 <%- include("./partials/footer") %>

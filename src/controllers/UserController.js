@@ -94,6 +94,51 @@ const userController = {
             title:"Visualizar usuário",
             user:userResult
         });
+    },
+    create:(req,res)=>{
+        return res.render("user-create",{title:"Cadastrar usuário"});
+    },
+    store:(req,res)=>{
+      const {nome, sobrenome, idade, email, avatar} = req.body;
+      if(!nome || !sobrenome || !idade || !email || !avatar){
+        return res.render("user-create",{
+          title:"Cadastrar usuário",
+          // Criando a chave erro como um valor opcional
+          error: {
+            message:"Preencha todos os campos."
+          }
+        });
+      };
+      const newUser = {
+        id: users.length + 1,
+        nome, //como chave e valor tem o mesmo identificador, posso colocar dessa forma
+        sobrenome, 
+        idade, 
+        email, 
+        avatar:`https://i.pravatar.cc/300?img=${avatar}`
+      };
+      users.push(newUser);
+      return res.render("success",{
+        title:"Sucesso",
+        message:"Usuário criado com sucesso!"
+      });
+    },
+    edit:(req,res)=>{
+      const {id} = req.params;
+      const userResult = users.find((user)=> user.id===parseInt(id));
+      if(!userResult){
+        return res.render("error",{
+          title: "Ops!",
+          message:"Nenhum usuário encontrado."
+        });
+      }
+      return res.render("user-edit",{
+        title: "Editar usuário",
+        user: userResult
+      });
+    },
+    update:(req,res)=>{
+    
     }
 };
 

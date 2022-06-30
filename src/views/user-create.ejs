@@ -1,0 +1,18 @@
+<%- include("./partials/head") %>
+<%- include("./partials/header") %>
+<main id="user-create">
+  <h1>Adicionar usuário</h1>
+  <!-- O locals serve para verificar se a variável foi criada/ enviada -->
+  <% if(locals.error){ %>
+    <h2 class="error-alert"><%= error.message %></h2>
+  <% } %>
+  <form action="/user/create" method="POST">
+    <input type="text" name="nome" placeholder="Nome do usuário">
+    <input type="text" name="sobrenome" placeholder="Sobrenome">
+    <input type="email" name="email" placeholder="E-mail">
+    <input type="number" name="idade" placeholder="Idade">
+    <input type="number" name="avatar" placeholder="Número do avatar">
+    <button type="submit">Adicionar</button>
+  </form>
+</main>
+<%- include("./partials/footer") %>
