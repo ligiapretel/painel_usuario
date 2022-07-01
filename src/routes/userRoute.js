@@ -10,6 +10,10 @@ router.post("/create",userController.store);
 router.get("/edit/:id",userController.edit);
 // PUT localhost:3000/user/edit/2
 router.put("/edit/:id",userController.update);
+// GET localhost:3000/user/delete/2
+router.get("/delete/:id",userController.delete);
+// DELETE localhost:3000/user/delete/2
+router.delete("/delete/:id",userController.destroy);
 
 //As rotas mais genéricas ficam mais abaixo, para evitar conflitos de rotas
 // localhost:3000/user/
