@@ -1,77 +1,80 @@
+// Importando o arquivo files, que trata a imagem do avatar - base64
+const files = require('../helpers/files');
+
 const users = [
-    {
-      id: 1,
-      nome: "Roberto",
-      sobrenome: "Silva",
-      email: "robertinho123@email.com",
-      idade: 27,
-      avatar: "https://i.pravatar.cc/300?img=70",
-    },
-    {
-      id: 2,
-      nome: "Ana",
-      sobrenome: "Monteiro",
-      email: "aninha123@email.com",
-      idade: 22,
-      avatar: "https://i.pravatar.cc/300?img=49",
-    },
-    {
-      id: 3,
-      nome: "Juliana",
-      sobrenome: "Rios",
-      email: "ju123@email.com",
-      idade: 18,
-      avatar: "https://i.pravatar.cc/300?img=48",
-    },
-    {
-      id: 4,
-      nome: "João",
-      sobrenome: "Oliveira",
-      email: "joaozinho123@email.com",
-      idade: 45,
-      avatar: "https://i.pravatar.cc/300?img=33",
-    },
-    {
-      id: 5,
-      nome: "Roberto",
-      sobrenome: "Carlos",
-      email: "robertinho123@email.com",
-      idade: 70,
-      avatar: "https://i.pravatar.cc/300?img=17",
-    },
-    {
-      id: 6,
-      nome: "Pedro",
-      sobrenome: "Santos",
-      email: "pedrinho123@email.com",
-      idade: 20,
-      avatar: "https://i.pravatar.cc/300?img=18",
-    },
-    {
-      id: 7,
-      nome: "Lucas",
-      sobrenome: "Morais",
-      email: "luquinhas123@email.com",
-      idade: 30,
-      avatar: "https://i.pravatar.cc/300?img=14",
-    },
-    {
-      id: 8,
-      nome: "Hélder",
-      sobrenome: "Santos",
-      email: "helder123@email.com",
-      idade: 25,
-      avatar: "https://i.pravatar.cc/300?img=6",
-    },
-    {
-      id: 9,
-      nome: "Marcos",
-      sobrenome: "Souza",
-      email: "marquinhos123@email.com",
-      idade: 40,
-      avatar: "https://i.pravatar.cc/300?img=3",
-    },
-  ];
+  {
+    id: 1,
+    nome: "Roberto",
+    sobrenome: "Silva",
+    email: "robertinho123@email.com",
+    idade: 27,
+    avatar: "user1.jpeg",
+  },
+  {
+    id: 2,
+    nome: "Ana",
+    sobrenome: "Monteiro",
+    email: "aninha123@email.com",
+    idade: 22,
+    avatar: "user2.jpeg",
+  },
+  {
+    id: 3,
+    nome: "Juliana",
+    sobrenome: "Rios",
+    email: "ju123@email.com",
+    idade: 18,
+    avatar: "user3.jpeg",
+  },
+  {
+    id: 4,
+    nome: "João",
+    sobrenome: "Oliveira",
+    email: "joaozinho123@email.com",
+    idade: 45,
+    avatar: "user4.jpeg",
+  },
+  {
+    id: 5,
+    nome: "Roberto",
+    sobrenome: "Carlos",
+    email: "robertinho123@email.com",
+    idade: 70,
+    avatar: "user5.jpeg",
+  },
+  {
+    id: 6,
+    nome: "Pedro",
+    sobrenome: "Santos",
+    email: "pedrinho123@email.com",
+    idade: 20,
+    avatar: "user6.jpeg",
+  },
+  {
+    id: 7,
+    nome: "Lucas",
+    sobrenome: "Morais",
+    email: "luquinhas123@email.com",
+    idade: 30,
+    avatar: "user7.jpeg",
+  },
+  {
+    id: 8,
+    nome: "Hélder",
+    sobrenome: "Santos",
+    email: "helder123@email.com",
+    idade: 25,
+    avatar: "user8.jpeg",
+  },
+  {
+    id: 9,
+    nome: "Marcos",
+    sobrenome: "Souza",
+    email: "marquinhos123@email.com",
+    idade: 40,
+    avatar: "user9.jpeg",
+  },
+];
 
 const userController = {
     index: (req,res)=>{
@@ -89,10 +92,15 @@ const userController = {
                 title:"Ops!",
                 message:"Usuário não encontrado"
             });
-        }
+        };
+        const user = {
+          // Spread Operator
+          ...userResult,
+          avatar: files.base64Encode(__dirname+"/../../uploads/"+userResult.avatar),
+        };
         return res.render("user",{
             title:"Visualizar usuário",
-            user:userResult
+            user,
         });
     },
     create:(req,res)=>{
