@@ -108,7 +108,7 @@ const userController = {
     },
     store:(req,res)=>{
       const {nome, sobrenome, idade, email, avatar} = req.body;
-      if(!nome || !sobrenome || !idade || !email || !avatar){
+      if(!nome || !sobrenome || !idade || !email){
         return res.render("user-create",{
           title:"Cadastrar usuário",
           // Criando a chave erro como um valor opcional

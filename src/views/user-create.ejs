@@ -6,12 +6,12 @@
   <% if(locals.error){ %>
     <h2 class="error-alert"><%= error.message %></h2>
   <% } %>
-  <form action="/user/create" method="POST">
+  <form action="/user/create" method="POST" enctype="multipart/form-data">
     <input type="text" name="nome" placeholder="Nome do usuário">
     <input type="text" name="sobrenome" placeholder="Sobrenome">
     <input type="email" name="email" placeholder="E-mail">
     <input type="number" name="idade" placeholder="Idade">
-    <input type="number" name="avatar" placeholder="Número do avatar">
+    <input type="file" name="avatar">
     <button type="submit">Adicionar</button>
   </form>
 </main>
