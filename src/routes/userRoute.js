@@ -30,7 +30,7 @@ router.post("/create",upload.single('avatar'),userController.store);
 // GET localhost:3000/user/edit/2
 router.get("/edit/:id",userController.edit);
 // PUT localhost:3000/user/edit/2
-router.put("/edit/:id",userController.update);
+router.put("/edit/:id",upload.single('avatar'),userController.update);
 // GET localhost:3000/user/delete/2
 router.get("/delete/:id",userController.delete);
 // DELETE localhost:3000/user/delete/2

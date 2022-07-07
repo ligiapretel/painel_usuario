@@ -1,3 +1,6 @@
+// Importando módulo do File System
+const fs = require('fs');
+
 // Importando o arquivo files, que trata a imagem do avatar - base64
 const files = require('../helpers/files');
 
@@ -108,6 +111,12 @@ const userController = {
     },
     store:(req,res)=>{
       const {nome, sobrenome, idade, email, avatar} = req.body;
+      //Criando um arquivo padrão que será enviado caso o usuário não suba nenhuma imagem
+      let filename = "user-default.jpeg";
+      // Caso a imagem tenha sido enviada, ele armazena na variável filename o arquivo enviado pelo usuário
+      if(req.file){
+        filename = req.file.filename;
+      }
       if(!nome || !sobrenome || !idade || !email){
         return res.render("user-create",{
           title:"Cadastrar usuário",
@@ -123,7 +132,7 @@ const userController = {
         sobrenome, 
         idade, 
         email, 
-        avatar:`https://i.pravatar.cc/300?img=${avatar}`
+        avatar: filename,
       };
       users.push(newUser);
       return res.render("success",{
@@ -147,8 +156,12 @@ const userController = {
     },
     update:(req,res)=>{
       const {id} = req.params;
-      const {nome, sobrenome, idade, email, avatar} = req.body;
+      const {nome, sobrenome, idade, email} = req.body;
       const userResult = users.find((user)=> user.id===parseInt(id));
+      let filename;
+      if(req.file){
+        filename = req.file.filename;
+      }
       if(!userResult){
         return res.render("error",{
           title: "Ops!",
@@ -156,13 +169,17 @@ const userController = {
         });
       }
       const updateUser = userResult;
-      if(nome) updateUser.nome = nome
-      if(sobrenome) updateUser.sobrenome = sobrenome
-      if(email) updateUser.email = email
-      if(idade) updateUser.idade = idade
-      if(avatar) updateUser.avatar = `https://i.pravatar.cc/300?img=${avatar}`
-
-      return res.render("success",{
+      if(nome) updateUser.nome = nome;
+      if(sobrenome) updateUser.sobrenome = sobrenome;
+      if(email) updateUser.email = email;
+      if(idade) updateUser.idade = idade;
+      if(filename) {
+        //Apagar a imagem de usuário anterior
+        let avatarTmp = updateUser.avatar;
+        fs.unlinkSync(__dirname + "/../../uploads" + avatarTmp);
+        updateUser.avatar = filename;
+      }
+    return res.render("success",{
         title: "Usuário atualizado",
         message:`Usuário ${updateUser.nome} foi atualizado.`
       });
@@ -176,6 +193,13 @@ const userController = {
           message:"Nenhum usuário encontrado."
         });
       }
+      const user = {
+        //Recebendo a chave do userResult
+        ...userResult,
+        avatar: files.base64Encode(
+          __dirname + "/../../uploads/" + userResult.avatar
+        ),
+      };
       return res.render("user-delete",{
         title:"Deletar usuário",
         user: userResult
@@ -190,6 +214,8 @@ const userController = {
           message:"Nenhum usuário encontrado."
         });
       };
+      // Para apagar a imagem do avatar tb da pasta uploads
+      fs.unlinkSync(__dirname+"/../../uploads"+users[result].avatar);
       users.splice(result,1);
       return res.render("success",{
         title: "Usuário deletado",
