@@ -1,8 +1,9 @@
 // Importando módulo do File System
 const fs = require('fs');
-
 // Importando o arquivo files, que trata a imagem do avatar - base64
 const files = require('../helpers/files');
+//Importando arquivo uploads que tem o caminho dos arquivos de uploads
+const upload = require('../config/upload')
 
 const users = [
   {
@@ -99,7 +100,7 @@ const userController = {
         const user = {
           // Spread Operator
           ...userResult,
-          avatar: files.base64Encode(__dirname+"/../../uploads/"+userResult.avatar),
+          avatar: files.base64Encode(upload.path+userResult.avatar),
         };
         return res.render("user",{
             title:"Visualizar usuário",
@@ -176,7 +177,7 @@ const userController = {
       if(filename) {
         //Apagar a imagem de usuário anterior
         let avatarTmp = updateUser.avatar;
-        fs.unlinkSync(__dirname + "/../../uploads" + avatarTmp);
+        fs.unlinkSync(upload.path + avatarTmp);
         updateUser.avatar = filename;
       }
     return res.render("success",{
@@ -197,7 +198,7 @@ const userController = {
         //Recebendo a chave do userResult
         ...userResult,
         avatar: files.base64Encode(
-          __dirname + "/../../uploads/" + userResult.avatar
+          upload.path + userResult.avatar
         ),
       };
       return res.render("user-delete",{
@@ -215,7 +216,7 @@ const userController = {
         });
       };
       // Para apagar a imagem do avatar tb da pasta uploads
-      fs.unlinkSync(__dirname+"/../../uploads"+users[result].avatar);
+      fs.unlinkSync(upload.path+users[result].avatar);
       users.splice(result,1);
       return res.render("success",{
         title: "Usuário deletado",
