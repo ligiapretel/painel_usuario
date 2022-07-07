@@ -1,27 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/UserController");
-const crypto = require('crypto');
-
-const multer = require('multer');
-const storage = multer.diskStorage({
-    destination: (req,file,cb)=>{
-        cb(null,__dirname+'/../../uploads');
-    },
-    filename: (req,file,cb)=>{
-        // Pegando extensão do arquivo
-        const extension = file.originalname.split(".")[1];
-        // Gerando um valor randômico e gerando um valor hexadecimal para gerar uma string
-        const newName = crypto.randomBytes(10).toString("hex");
-        // Altera o nome do arquivo para a string randômica
-        cb(null,`${newName}.${extension}`);
-
-    },
-});
-
-// const upload = multer({ dest: __dirname+'/../../uploads'});
-const upload = multer({ storage });
-
+const upload = require('../helpers/multer');
 
 // GET localhost:3000/user/create
 router.get("/create",userController.create);
