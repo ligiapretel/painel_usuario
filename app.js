@@ -19,9 +19,32 @@ app.use(methodOverride("_method"));
 app.use(express.json());
 //url encoded serve para a gente converter a carga da requisição em um formato que o json aceite
 app.use(express.urlencoded({extended:false}));
+// Middleware global - vai ser executado sempre que qualquer rota for chamada
+app.use((req,res,next)=>{
+    // console.log("Entrou no middleware");
+    // console.log(req);
+    //Todo middleware tem que ter obrigatoriamente o next no final, para chamar a próxima execução
+    next();
+});
 
 app.use("/",indexRoute);
 app.use("/user/",userRoute);
+
+// Middleware para página não encontrada - deve vir depois de todas as rotas para não dar erro
+app.use((req,res,next)=>{
+    res.status(404).render("error",{
+        title: "Ops!",
+        message: "Página não encontrada",
+    });
+});
+
+//Outra forma de fazer essa página não encontrada
+// app.get("*",(req,res,next)=>{
+//     res.status(404).render("error",{
+//         title: "Ops!",
+//         message: "Página não encontrada",
+//     });
+// });
 
 
 app.listen(port, ()=>{

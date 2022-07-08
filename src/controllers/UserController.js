@@ -117,15 +117,6 @@ const userController = {
       // Caso a imagem tenha sido enviada, ele armazena na variável filename o arquivo enviado pelo usuário
       if(req.file){
         filename = req.file.filename;
-      }
-      if(!nome || !sobrenome || !idade || !email){
-        return res.render("user-create",{
-          title:"Cadastrar usuário",
-          // Criando a chave erro como um valor opcional
-          error: {
-            message:"Preencha todos os campos."
-          }
-        });
       };
       const newUser = {
         id: users.length + 1,
@@ -203,7 +194,7 @@ const userController = {
       };
       return res.render("user-delete",{
         title:"Deletar usuário",
-        user: userResult
+        user
       })
     },
     destroy:(req,res)=>{
